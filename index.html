@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+	<title>HomePage</title>
+	<meta name="description" content="HomePage of my subjects notes">
+</head>
+
+<body>
+	<h3>HomePage</h3>
+	<p>Here we have a list of subjects with their notes well-listed, order by year :</p>
+	<ol>
+		<li>
+			<p>First year courses:<p>
+			<ul id = "firstYear">
+				<li><a>Prova1</a></li>
+				<li><a>Prova2</a></li>
+			</ul>
+		</li>
+		<li>
+			<p>Second year courses:<p>
+			<ul id = "secondYear">
+				<li><a>Prova1</a></li>
+				<li><a>Prova2</a></li>
+			</ul>
+		</li>
+		<li>
+			<p>Third year courses:<p>
+			<ul id = "thirdYear">
+				<li><a href="">Prova1</a></li>
+				<li><a>Prova2</a></li>
+			</ul>
+		</li>
+		<li>
+			<p>Fourth year courses:<p>
+			<ul id = "fourthYear">
+				<li><a>Prova1</a></li>
+				<li><a>Prova2</a></li>
+			</ul>
+		</li>
+		<li>
+			<p>Fifth year courses:<p>
+			<ul id = "fifthYear">
+				<li><a>Distributed Systems</a></li>
+				<li><a>NGS Analysis and Computational Genomics</a></li>
+				<li><a>Learning From Networks</a></li>
+				<li><a>Advanced Algorithm Design</a></li>	
+			</ul>
+		</li>
+	</ol>
+<script>
+
+	const fifthDS = "courses/fifthYear/distributedSystem.html";
+	document.getElementById("fifthYear").getElementsByTagName("li")[0].getElementsByTagName("a")[0].href= fifthDS;
+	const years = ["firstYear", "secondYear", "thirdYear", "fourthYear", "fifthYear"];
+	const fifthYearSubjects = ["distributedSystem"]
+
+	/*for (let yr of years) {
+		if (yr=="fifthYear") {
+			const subjects = document.getElementbyId(yr).getElementsByTagName("li");
+			let indexSubject = 0;
+			for (indexSubject < lastIndexOf(subjects)) {
+				subjects[indexSubject].getElementsByTagName("a")[0].href = "courses/" + yr + fifthYearSubjects[0];			
+			}	
+		}	
+	}*/
+
+</script>
+</body>
+</html>
