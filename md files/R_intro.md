@@ -1,4 +1,4 @@
-pag.45
+pag.60
 https://www.youtube.com/watch?v=fDRa82lxzaU
 - [1. Introduction to R](#1-introduction-to-r)
   - [1.1. Presentation and general notions](#11-presentation-and-general-notions)
@@ -175,13 +175,20 @@ https://www.youtube.com/watch?v=fDRa82lxzaU
 - 2d collection
 - Create a matrix
   - matrix()
+    - data
     - nrow
     - ncol (default ncol=1)
+    - byrow
+    - dimnames
 - Can transform from vector to matrix and viceversa
   - as.matrix()
   - as.vector()
 - Indexing a matrix 
-  - square brackets (normal, negative, subsets)
+  - square brackets with 2 indexes (normal, negative, subsets)
+    - M[1,2]
+    - can do without one index, meaning all the indexes for that dimension
+      - M[,1] means all rows and col = 1
+      - M[1,] means row = 1 and all cols 
 - Extracting elements from a matrix  
   - relational operators
   - which()
@@ -216,39 +223,226 @@ https://www.youtube.com/watch?v=fDRa82lxzaU
   - many functions, like max, min, sum,.. have a parameter "na.rm", if it's set to TRUE, omit those values before computation
 ## 3.3. list
 - list are ordered collections of objects of different nature
-- 
+- create list
+  - list()
+- indexing list
+  - double square brackets: [[]]
+  - normal single square brackets
+- naming element of list
+  - either during initializing: u put name= before the element, and instead of name, the name you want to give
+  - or with the function names() that want as parameter the list object
+    - names(L) gives the set of names for list L
+    - you can insert values inside names(L), inserting a vector of strings, by doing so you name the elements inside the list
+  - it is not necessary to name elements of list
+- it is possible to access the list by name (e.g we want to access the element with name "pippo" in list L => "L$pippo" access it) 
 ## 3.4. data.frame
-
+- a 2d array to represent data of different nature (e.g numbers and strings)
+- can be converted to matrix using "data.matrix()"
+ - be careful for conversion of strings to numbers
+- create a data.frame
+  - data.frame()
+    - as for the parameters there are many options:
+      1. many vectors (used as column vectors)
+      1. many matrices (concatenated column-wise, so on the right)
+      1. one matrix (data.frame with same elements type)
+      1. one vector or many numbers (1d data.frame)
+- naming data.frame variables
+  - names()
+  - row.names()
+- accessing data.frame objects
+  - same as matrices -> df[2,4]
+  - also columns can be accessed with $and name -> df$age (if there is a column named age)
+- insert data.frame values/elements
+  - the $ operator can also be used to insert a new variable to the data.frame
+  - otherwise just use the square bracket to insert values
+    - can insert rows, columns or just one elements
+- functions on data.frame objects
+  - mean(df$age) gives the mean of the column age, if elements are all numbers
+    - mean(df) gives NA
+- attributes()
+  - gives the list of attributes of the object
+  - row.names() colnames() names() dim() class() dimnames()
 # 4. Importing and Exporting Data
 ## 4.1. Reading data 
+- Reading data from file
+  - read.table()
+    - read a file (in table format) and create a data.frame
+    - read.table(file, header = FALSE, sep = "", dec = ".")
+      - file: name of file (with path if necessary)
+      - header: if TRUE indicates that first line contains variable names (default is FALSE, unless if the first line of the file contains a value less than all the other lines)
+      - sep: indicates how elements in file are separated(default is "", indicates any character between space, tab or new line)
+      - dec: used decimal separator in the file (default ".")
+      - colClasses : character vector indicating class of each column indata set (default is automatic conversion)
+      - nrows: maximum number of rows to be read (default read until eof)
+      - comment.char: commented character (default #)
+      - skip: number of lines to skip from beginning (default 0)
+      - stringsAsFactors: whether you want to encode character variables as factors (default #)
 ## 4.2. Writing data
+  - write.table()
+    - writes a matrix or dataframe into a file (table format)
+    - write.table(x, file, sep, na, dec, row.names, col.names)
+      - x is object to write from 
+      - file is the name of the file (and if necessary path) (default is "")
+      - sep is the character used as separator (default " ")
+      - dec is character used as the decimal separator (default ".")
+      - row.names is a vector of names of rows
+        - possible value: TRUE, FALSE, vector of names (TRUE uses actual names of data.frame)(false says no names required)
+      - col.names a vector of names of cols (TRUE, FALSE, vector of names)
 ## 4.3. CSV
 - read.csv()
+  - read.csv(file, header)
+    - header can be either TRUE or FALSE
 - write.csv()
-- 
+  - write.csv(my.data, file, quote=FALSE, eol="", na="")
+    - quote (TRUE means double quotes on chaacter or factor columns, or numerical vector as value for indices whose element will be quoted)
 # 5. Control structures
 ## 5.1. If
+- if-then
+- if-else
+- if-else if-else
 ## 5.2. Switch
+- switch(expression, case1, case2,..., caseN)
+- can have any number of cases
+- if the expression gives result <1 or >(numbers of cases) => switch returns NULL
+- example:
+  - switch(x%%2+1, 'even', 'odd')
+  - switch(a, foo={..}, bar ={..}, {})
+    - unnamed element is default case
+    - if the result of the expression is a string, you need cases named with the exactly same string as the result, in this example string "foo" or "bar"
+ 
 ## 5.3. Loops
+- while 
+- for
+  - for(iterator in vector){...}
+  - e.g.: for(i in (1:10)){...}
+- repeat
+  - similar to while
+  - repeat{ ... if(condition) break;}
+- next and break statements
 
 # 6. Function
-## 6.1. Syntax
-## 6.2. Parameter
-# 6.3. Return
-## 6.4. Invocation
+- set of statements organized to solve a task
+- some pre-exist within R, others can be added with library (package) (by users)
 
+## 6.1. Syntax
+- name_function <- function(..) {...}
+  - function is stored as an obj with this name
+## 6.2. Parameters
+- parameters are divided by comma
+- can be optional
+- can have default values
+# 6.3. Return
+- return()
+  - return(data)
+- it is better to return only once, at the end of the function (to avoid mistakes)
+## 6.4. Invocation
+- when calling a function, respect order of parameters or assign them by name
+- within a function it is possible to call other functions 
 # 7. Running and writing code
-## 7.1. Saving and Loading Functions
-## 7.2. Packages
-- install
-- upload
+- Rstudio
+  - SOURCE area
+    - possible to write R commands and execute them by clicking on "Run"
+    - it is possible to save a file of the commands in the source area    
+    - can use the command source to run the code in a script, either from R cmd or from "Edit->Source"
+      - variables and function are stored in the workspace
+## 7.1. Saving/Loading Functions
+- function can be written and saved (MUST)
+- load them with source (source on save)
+  - after I used source, I have to call the function by their name (not their file's name)
+## 7.2. Packages  
+- upload packages on RStudio
+  - other functions can be used by loading packages into the workspace
+    - click on the desired package to load it into the workspace or use "library(package_name)"
+    - if the package is not already installed on the PC, click on "Install packages"
+        - if the package isn't on the list use "setRepositories()"
+- upload package in R
+  - directly from command prompt (with source)
+  - load it into the workspace: library(package_name)
   
 # 8. Graphs and descriptors of the statistical sample
-## 8.1. Plots
-## 8.2. Population - Sample - Variable
-## 8.3. Sample descriptors
-
+## 8.1 Graphs (plots)
+- main functions to draw graphs :
+  1. plot()
+    - plot(x, y, type, col, pch, ylab, xlab, ylim)
+      - type of graph are:
+        1. "p" = points (default)
+        1. "l" = lines
+        1. "b" = both
+      - col (colour in integer, default value is 1, 1 is black)
+      - pch (default value is "o", character representing point)
+      - ylab (label of y)
+      - xlab (label of x)
+      - ylim (axis range) 
+  1. points()
+    - points(x, y, col)
+  1. lines()
+    - lines(x, y, col)
+- Legend for the plot
+  - legend()
+    - legend(x, y, legend, col, lty, pch, bty)
+    - help(legend)
+- Save graphs on files
+  - pdf()
+    - pdf("plot_fig1.pdf")
+    - remember to close the file with "dev.off()"
+  - png()
+  - jpeg()
+  - bmp()
+  - tiff()
+- par() for more graphs
+## 8.2. Sample descriptors
+- Measures for central tendency or position of sample
+  - mean()
+    - mean(..., trim=0.02)
+  - median()
+  - mode
+- Measure of dispersion or variability of sample
+  - var()
+  - sd() 
+    - standard deviation
+  - variation coefficient : sd()/mean()
+- Descriptor of sample distribution
+  - histograms
+    - hist()
+    - density() 
+      - plot(density()) 
+      - lines(density())
+  - boxplot()
+  - quantiles
+    - rnorm(N) (or qnorm, dnorm, pnorm)
+      - N observation
+    - quartiles
+    - qqnorm()
+    - qqplot(x, y, xlim, ylim)
+      - abline(0, 1, col)
+    - quantile()
+      - plot(seq(0,1,0.01),quantile(x, probs=seq(0,1,0.01)))
 # 9. Loop functions and debugging
 ## 9.1. Loop functions
+- apply(M, 1, max)
+  - allows to use functions on matrices rows or columns
+  - second argument: 1 means by rows, 2 means by cols
+  - M is matrix
+  - max can be interchanged with other functions
+- lapply(x, function)
+  - applies the function on list x, on every element
+  - can add a parameter "simplify=TRUE",that returns a vector or a matrix, if possible
+- mapply(FUN, ...MoreArfs, SIMPLIFY)
+  - multivariate version of apply() and sapply() 
+- tapply()
+  - apply FUN to a subset of X
+- split(x, f, drop=FALSE)
 ## 9.2. Debug in R
-
+- debug with cat()
+- debug functions with "debug(function)"
+  - "enter" for next instruction
+  - "c + enter" for exit debug and continue execution
+  - "Q + enter" for exiting function
+  - "undebug(function)" to exit debugging mode
+# 10. help(function)
+- Other functions
+  - readline()
+  - cat()
+  - as.numeric()
+  - abline(0,1, col=2)
+  - runif(N)
