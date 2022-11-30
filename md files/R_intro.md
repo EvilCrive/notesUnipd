@@ -1,3 +1,5 @@
+# SKSKKSKSKS
+
 pag.60
 https://www.youtube.com/watch?v=fDRa82lxzaU
 - [1. Introduction to R](#1-introduction-to-r)
@@ -20,7 +22,7 @@ https://www.youtube.com/watch?v=fDRa82lxzaU
 - [6. Function](#6-function)
   - [6.1. Syntax](#61-syntax)
   - [6.2. Parameter](#62-parameter)
-- [6.3. Return](#63-return)
+  - [6.3. Return](#63-return)
   - [6.4. Invocation](#64-invocation)
 - [7. Running and writing code](#7-running-and-writing-code)
   - [7.1. Saving and Loading Functions](#71-saving-and-loading-functions)
@@ -95,9 +97,9 @@ https://www.youtube.com/watch?v=fDRa82lxzaU
   - semicolon arent necessary, can just start a new line
 - Relational and logical operators
   - ==
-  - >
+  - \>
   - <
-  - >=
+  - \>=
   - <=
   - !=
   - &
