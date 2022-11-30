@@ -1,1 +1,164 @@
-27
+<!doctype html>
+<html>
+<head>
+	<title>NSG and Computational Genomics</title>
+</head>
+<body>
+<ul>
+    <li>Multiple Testing for SNPs
+        <ul>
+            <li>Estimate False Positive errors : G0*alfa</li>
+            <li>False Discovery Rate
+                <ul>
+                    <li>E[#FP]/#Selected</li>
+                    <li>G0 = (G-S)/(1-lambda)</li>
+                    <li>Benjamini-Hochberg procedure
+                        <ul>
+                            <li>sort p-values in ascending order</li>
+                            <li>assign ranks to p-values, 1 to the smallest and 2 to the second smallest and so on</li>
+                            <li>qval = p-value*G/r
+                                <ul>
+                                    <li>r rank, in case of ties consider max rank</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>RNA Sequencing and Normalization
+        <ul>
+            <li>RNA Sequencing
+                <ul>
+                    <li>read mapping and count data
+                        <ul>
+                            <li>count r_ik is the number of reads that map on trascript i in the sample k (raw counts)</li>
+                            <li>probability that 1 fragment is mapped is : p_ik = [(T_ik*L_i)/l] / [sum(T_jk*Lj)/l]</li>
+                            <li>expected value of r_ik is : E[r_ik] = n_k * p_ik</li>
+                            <li>Gene expression measured in RPKM : Expr_ik = (r_ik*10^6) / (n_k*L_i).
+                                <ul>
+                                    <li>RPKM is Reads Per Kilobase of transcript per Million mapped reads</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>Normalization
+                <ul>
+                    <li>Measures can be affected by random errors, that can be reduced by replicated measurements, and by systematic error, that can be reduced by normalization.</li>
+                    <li>Plots
+                        <ul>
+                            <li>log vs log plot</li>
+                            <li>MvA plot</li>
+                            <li>boxplot</li>
+                            <li>PCA</li>
+                            <li>Correlation matrix heatmaps</li>
+                        </ul>
+                    </li>
+                    <li>Types of normalization
+                        <ul>
+                            <li>TMM
+                                <ul>
+                                    <li>The more extreme values of A are trimmed</li>
+                                    <li>median or TMM(trimmed mean) to estimate SF (size factor)</li>
+                                </ul>
+                            </li>
+                            <li>Geometric mean</li>
+                            <li>Quantile normalization
+                                <ol>
+                                    <li>Put each column in ascending order in the matrix Data.sorted</li>
+                                    <li>Save the order (rank of gene position) in the matrix Data.position</li>
+                                    <li>Construct vector Mean of the averages row by row</li>
+                                    <li>Calculate Data.norm by rearranging values of vector Mean according to Data.position</li>
+                                </ol>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>Differentially Expression Analysis - Selection Classical Tests
+        <ul>
+            <li>selection of differentially expressed genes</li>
+            <li>Student t-test comparison
+                <ul>
+                    <li>y_obs = (m_a-m_b) / [s_p*sqrt(1/n_a + 1/n_b)]</li>
+                    <li>s_p^2 = [(n_a -1)*s_a^2 + (n_b -1)*s_b^2]/(n_a+n_b-2)</li>
+                    <li>df = n_a + n+b -2</li>
+                    <li>then we either compare y_obs with a confidence threshold (theta) or p_value with alfa</li>
+                </ul>
+            </li>
+            <li>Powerful variants of Student t-test
+                <ul>
+                    <li>Welch-Student t-test</li>
+                    <li>Wilcoxon test
+                        <ul>
+                            <li>rank sum statistic</li>
+                            <li>procedure
+                                <ol>
+                                    <li>N = n_a + n_b</li>
+                                    <li>Sort the expression values in ascending order and assign a rank from 1 to N</li>
+                                    <li>If two values are identical, I assign them as rank the mean of the ranks</li>
+                                    <li>pick the group with less cardinality e.g let n_a : n_a &lt;= n_b, and calculate R_obs
+                                        <ul>
+                                            <li>R_obs = [R_a-(n_a(N+1))/2]/[sqrt((n_a*n_b*(N+1))/12)]</li>
+                                        </ul>
+                                    </li>
+                                    <li>then we reject or not our null hypothesis comparing R_obs with theta or p-value with alfa</li>
+                                </ol>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Permutation test
+                       
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>Functional Annotation
+        <ul>
+            <li>Biological annotation</li>
+            <li>Gene Ontology
+                <ul>
+                    <li>relationship between entities in the gene domain</li>
+                    <li>GO, describes functional annotations of genes and their gene products</li>
+                </ul>
+            </li>
+            <li>Functional Enrichment test
+                <ul>
+                    <li>list of all genes analysed and subset of selected as differentially expressed can be annotated with their relevant functional information.</li>
+                    <li>then we can ask whether the number of selected genes is significantly greater (enriched) than what I would have obtained with a random selection of genes
+                        <ul>
+                            <li>Enrichment analysis is the verification of this hypothesis, a statistical test widely used for this is the Fisher Exact Test</li>
+                            <li>Fisher Exact test
+                                <ul>
+                                    <li>p represents exactly the probability of randomly observing the values when the things are fixed</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>GSEA (Gene Set Enrichment Analysis)
+                        <ul>
+                            <li>goal is to identify functional groups of genes characterized by one coherent differential expression</li>
+                            <li>For this GSEA we analyse the ranking of statistics y used for selection without setting a threshold on y</li>
+                            <li>Procedure
+                                <ol>
+                                    <li>Order the N genes according to the chosen y statistic</li>
+                                    <li>We then calculate the running sum RS as a function of the rank k of the statistic y: RS(k)=sum[|y_i|^p/sum(|y_j|^p)] - sum (1/(N-N_set))</li>
+                                    <li>default for p is 1</li>
+                                    <li>the maximum deviation from 0 of RS(k) is called Enrichment Score (ES)</li>
+                                </ol>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+</body>
+</html>
